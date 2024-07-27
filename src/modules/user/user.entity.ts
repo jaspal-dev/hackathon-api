@@ -6,7 +6,9 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { OTPVerification } from '../otp-verification/otp-verification.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -81,7 +83,7 @@ export class User {
     default: () => 'CURRENT_TIMESTAMP(6)',
     name: 'created_at',
   })
-  public createdAt?: Date;
+  public createdAt: Date;
 
   @UpdateDateColumn({
     type: 'timestamp',
@@ -89,5 +91,8 @@ export class User {
     onUpdate: 'CURRENT_TIMESTAMP(6)',
     name: 'updated_at',
   })
-  public updatedAt?: Date;
+  public updatedAt: Date;
+
+  @OneToMany(() => OTPVerification, (OTPVerification) => OTPVerification.user)
+  public readonly otpVerification: OTPVerification[];
 }

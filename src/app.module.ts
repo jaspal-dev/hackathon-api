@@ -5,9 +5,20 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from './data-source-config';
+import { OtpVerificationModule } from './modules/otp-verification/otp-verification.module';
+import { ConfigModule } from '@nestjs/config';
+import configuration from './config/configuration';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(dataSourceOptions), AuthModule, UserModule],
+  imports: [
+    ConfigModule.forRoot({
+      load: [configuration],
+    }),
+    TypeOrmModule.forRoot(dataSourceOptions),
+    AuthModule,
+    UserModule,
+    OtpVerificationModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

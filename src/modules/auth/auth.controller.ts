@@ -21,6 +21,8 @@ export class AuthController {
     const accessToken = await this.jwtService.signAsync({
       email: user.email,
       sub: user.id,
+      isEmailVerified: user.isEmailVerified,
+      isPhoneNumberVerified: user.isPhoneNumberVerified,
     });
     response.set('Authorization', accessToken);
     return plainToInstance(UserResponseDto, user);
