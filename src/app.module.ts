@@ -5,7 +5,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from './data-source-config';
-import { OtpVerificationModule } from './modules/otp-verification/otp-verification.module';
+import { OtpVerificationModule } from './modules/otp-verification/otpVerification.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 

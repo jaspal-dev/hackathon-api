@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { OTPVerification } from './otp-verification.entity';
+import { OTPVerification } from './otpVerification.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 

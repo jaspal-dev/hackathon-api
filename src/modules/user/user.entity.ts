@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { OTPVerification } from '../otp-verification/otp-verification.entity';
+import { OTPVerification } from '../otp-verification/otpVerification.entity';
 
 @Entity({ name: 'users' })
 export class User {
