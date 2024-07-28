@@ -3,6 +3,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -51,6 +52,12 @@ export class OTPVerification {
   })
   public readonly updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.otpVerification)
+  @Column({ name: 'user_id' })
+  public readonly userId: string;
+
+  @ManyToOne(() => User, (user) => user.otpVerification, {
+    nullable: false,
+  })
+  @JoinColumn({ name: 'user_id' })
   public readonly user: User;
 }

@@ -7,12 +7,16 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { IS_SKIP_VARIFICATION } from './SkipVerification';
+import { Reflector } from '@nestjs/core';
+import { ErrorConstants } from 'src/constants';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   public constructor(
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly reflector: Reflector,
   ) {}
 
   public async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -28,6 +32,19 @@ export class AuthGuard implements CanActivate {
       request['user'] = payload;
     } catch {
       throw new UnauthorizedException();
+    }
+    const skipVerification = this.reflector.getAllAndOverride<boolean>(
+      IS_SKIP_VARIFICATION,
+      [context.getHandler(), context.getClass()],
+    );
+    if (
+      !skipVerification &&
+      (!request['user']['isEmailVerified'] ||
+        !request['user']['isPhoneNumberVerified'])
+    ) {
+      throw new UnauthorizedException(
+        ErrorConstants.EMAIL_OR_PHONE_NOT_VERIFIED,
+      );
     }
     return true;
   }

@@ -5,9 +5,16 @@ import { OTPVerificationController } from './otpVerification.controller';
 import { OTPVerificationRepository } from './otpVerification.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { OTPVerification } from './otpVerification.entity';
+import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [UserModule, TypeOrmModule.forFeature([OTPVerification])],
+  imports: [
+    ConfigModule,
+    JwtModule,
+    UserModule,
+    TypeOrmModule.forFeature([OTPVerification]),
+  ],
   controllers: [OTPVerificationController],
   providers: [OTPVerificationService, OTPVerificationRepository],
   exports: [],

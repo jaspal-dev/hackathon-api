@@ -26,4 +26,18 @@ export class UserService {
       where: { id },
     });
   }
+
+  public async verifyEmail(id: string): Promise<void> {
+    await this.userRepository.update(
+      { id },
+      { id, isEmailVerified: true, emailVerifiedAt: new Date() },
+    );
+  }
+
+  public async verifyPhoneNumber(id: string): Promise<void> {
+    await this.userRepository.update(
+      { id },
+      { id, isPhoneNumberVerified: true, phoneNumberVerifiedAt: new Date() },
+    );
+  }
 }
