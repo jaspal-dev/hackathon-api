@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post, Res, Header } from '@nestjs/common';
 import { SignUpDto, UserResponseDto } from './dto';
 import { AuthService } from './auth.service';
 import { plainToInstance } from 'class-transformer';
@@ -14,6 +14,7 @@ export class AuthController {
   ) {}
 
   @Post('/sign-up')
+  @Header('Access-Control-Expose-Headers', 'Authorization')
   public async signUp(
     @Body() signUpDto: SignUpDto,
     @Res({ passthrough: true }) response: Response,
@@ -30,6 +31,7 @@ export class AuthController {
   }
 
   @Post('/login')
+  @Header('Access-Control-Expose-Headers', 'Authorization')
   public async login(
     @Body() loginDto: LoginDto,
     @Res({ passthrough: true }) response: Response,
