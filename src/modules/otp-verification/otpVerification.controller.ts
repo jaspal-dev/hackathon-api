@@ -1,6 +1,5 @@
 import { Controller, Post } from '@nestjs/common';
 import { OTPVerificationService } from './otpVerification.service';
-import OTPChannelEnum from 'src/enums/OTPChannel';
 import OTPRequestDto from './dto/otpRequest.dto';
 import { OtpSentResponse } from './dto';
 
@@ -21,5 +20,5 @@ export class OTPVerificationController {
   }
 
   @Post('/verify-otp')
-  public async verifySMSOTP(userId: string): Promise<void> {}
+  public async verifySMSOTP(): Promise<void> {}
 }
