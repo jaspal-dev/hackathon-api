@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { OTPVerification } from './otpVerification.entity';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { NotificationModule } from '../notification/notification.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { JwtModule } from '@nestjs/jwt';
     JwtModule,
     UserModule,
     TypeOrmModule.forFeature([OTPVerification]),
+    NotificationModule,
   ],
   controllers: [OTPVerificationController],
   providers: [OTPVerificationService, OTPVerificationRepository],

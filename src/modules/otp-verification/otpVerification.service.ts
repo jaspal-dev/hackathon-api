@@ -10,12 +10,15 @@ import { ErrorConstants, SuccessConstants } from 'src/constants';
 import OtpResponse from './dto/OtpResponse.dto';
 import { plainToInstance } from 'class-transformer';
 import OTPChannelEnum from 'src/enums/OTPChannel';
+import { NotificationService } from '../notification/notification.service';
+import { NotificationChannelEnum } from 'src/enums';
 
 @Injectable()
 export class OTPVerificationService {
   public constructor(
     private readonly userService: UserService,
     private readonly otpVerificationRepository: OTPVerificationRepository,
+    public readonly notificationService: NotificationService,
   ) {}
 
   public async sendOTP(
@@ -57,6 +60,11 @@ export class OTPVerificationService {
       otp,
     });
     await this.otpVerificationRepository.insert(optVerification);
+    await this.notificationService.send(
+      OTPChannelEnum.SMS == channel ? user.phoneNumber : user.email,
+      channel as unknown as NotificationChannelEnum,
+      `Your OTP to register the app is ${otp} .`,
+    );
     return plainToInstance(OtpResponse, {
       success: true,
       message:
