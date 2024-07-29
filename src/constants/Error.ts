@@ -6,6 +6,7 @@ const ErrorConstants = {
   EMAIL_OR_PHONE_NOT_VERIFIED: 'Email or phone not verified',
   EMAIL_ALREADY_EXISTS: 'Email already exists',
   PHONE_NUMBER_ALREADY_EXISTS: 'Phone number already exists',
+  FLIGHT_NOT_FOUND: 'Flight not found',
 };
 
 export default ErrorConstants;

@@ -12,8 +12,8 @@ export class Notification {
   @PrimaryGeneratedColumn('increment')
   public readonly id: number;
 
-  @Column({ type: 'char', length: 7, name: 'flight_id', nullable: true })
-  public readonly flightId?: string;
+  @Column({ nullable: true })
+  public readonly flightId?: number;
 
   @Column({ type: 'text' })
   public readonly message: string;

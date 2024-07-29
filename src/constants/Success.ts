@@ -5,6 +5,7 @@ const SuccessConstants = {
   EMAIL_OTP_VERIFIED: 'OTP verified successfully',
   FLIGHT_ADDED: 'Flight Added Successfully',
   FLIGHT_UPDATED: 'Flight updated Successfully',
+  PASSENGER_ADDED: 'Passenger Added Successfully',
 };
 
 export default SuccessConstants;

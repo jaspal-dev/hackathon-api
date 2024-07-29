@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Passenger } from '../passenger/passenger.entity';
 
 @Entity({ name: 'flights' })
 export class Flight {
@@ -25,4 +26,7 @@ export class Flight {
 
   @Column({ nullable: true, name: 'actual_arrival' })
   public readonly actualArrival: Date;
+
+  @OneToMany(() => Passenger, (passenger) => passenger.flight)
+  public readonly passenger: Passenger[];
 }

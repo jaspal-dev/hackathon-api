@@ -8,6 +8,7 @@ import { OTPVerification } from './otpVerification.entity';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { NotificationModule } from '../notification/notification.module';
+import { BullModule } from '@nestjs/bullmq';
 
 @Module({
   imports: [
@@ -16,6 +17,9 @@ import { NotificationModule } from '../notification/notification.module';
     UserModule,
     TypeOrmModule.forFeature([OTPVerification]),
     NotificationModule,
+    BullModule.registerQueue({
+      name: 'notifications',
+    }),
   ],
   controllers: [OTPVerificationController],
   providers: [OTPVerificationService, OTPVerificationRepository],

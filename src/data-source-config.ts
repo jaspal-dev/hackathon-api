@@ -1,11 +1,12 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
+import 'dotenv/config';
 
 export const dataSourceOptions: DataSourceOptions = {
   type: 'mysql',
-  host: 'localhost',
-  port: 3306,
-  username: 'root',
-  password: 'Jaspal@123',
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT),
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
   database: 'hackathon',
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/**/*.js'],

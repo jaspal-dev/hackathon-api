@@ -12,6 +12,8 @@ import { plainToInstance } from 'class-transformer';
 import OTPChannelEnum from 'src/enums/OTPChannel';
 import { NotificationService } from '../notification/notification.service';
 import { NotificationChannelEnum } from 'src/enums';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
 
 @Injectable()
 export class OTPVerificationService {
@@ -19,6 +21,7 @@ export class OTPVerificationService {
     private readonly userService: UserService,
     private readonly otpVerificationRepository: OTPVerificationRepository,
     public readonly notificationService: NotificationService,
+    @InjectQueue('notifications') private audioQueue: Queue,
   ) {}
 
   public async sendOTP(

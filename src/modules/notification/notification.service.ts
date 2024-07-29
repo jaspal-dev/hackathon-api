@@ -1,19 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { NotificationRepository } from './notification.repository';
 import { NotificationChannelEnum } from 'src/enums';
-import { createTransport } from 'nodemailer';
-import axios from 'axios';
+import { Queue } from 'bullmq';
+import { InjectQueue } from '@nestjs/bullmq';
 
 @Injectable()
 export class NotificationService {
   public constructor(
     public readonly notificationRepository: NotificationRepository,
+    @InjectQueue('notifications') private notificationQueue: Queue,
   ) {}
   public async send(
     recipient: string,
     method: NotificationChannelEnum,
     message: string,
-    flightId?: string,
+    flightId?: number,
   ): Promise<void> {
     const notificationData = this.notificationRepository.create({
       recipient,
@@ -23,51 +24,15 @@ export class NotificationService {
     });
     await this.notificationRepository.insert(notificationData);
     method === NotificationChannelEnum.EMAIL &&
-      (await this.sendEmail(recipient, 'Account Registration', message));
+      this.notificationQueue.add('sendEmail', {
+        recipient,
+        subject: 'Account Registration',
+        message,
+      });
     method === NotificationChannelEnum.SMS &&
-      (await this.sendSMS(recipient, message));
-  }
-
-  private async sendEmail(
-    recipient: string,
-    subject: string,
-    message: string,
-  ): Promise<void> {
-    const transporter = createTransport({
-      service: 'Gmail',
-      host: 'smtp.gmail.com',
-      port: 465,
-      secure: true,
-      auth: {
-        user: 'jasi7003@gmail.com',
-        pass: 'tyht redq qyxu nvki',
-      },
-    });
-    const mailOptions = {
-      from: 'jasi7003@gmail.com',
-      to: recipient,
-      subject,
-      text: message,
-    };
-    await transporter.sendMail(mailOptions);
-  }
-
-  private async sendSMS(recipient: string, message: string): Promise<void> {
-    await axios.post(
-      'https://www.fast2sms.com/dev/bulkV2',
-      {
-        route: 'q',
-        message: message,
-        flash: 0,
-        numbers: recipient,
-      },
-      {
-        headers: {
-          authorization:
-            'oqht6HylUBgCjxnLJ9pOFKSMXuV5weAQiksGdmRz0EZfT2v1c75vYgiJGlz8Et2IwQmyrHNxhSXB0eaM',
-          'Content-Type': 'application/json',
-        },
-      },
-    );
+      this.notificationQueue.add('sendSMS', {
+        recipient,
+        message,
+      });
   }
 }

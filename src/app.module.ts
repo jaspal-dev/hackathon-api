@@ -6,9 +6,11 @@ import { UserModule } from './modules/user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from './data-source-config';
 import { OtpVerificationModule } from './modules/otp-verification/otpVerification.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
 import { FlightModule } from './modules/flight/flight.module';
+import { PassengerModule } from './modules/passenger/passenger.module';
+import { BullModule } from '@nestjs/bullmq';
 
 @Module({
   imports: [
@@ -20,6 +22,17 @@ import { FlightModule } from './modules/flight/flight.module';
     UserModule,
     OtpVerificationModule,
     FlightModule,
+    PassengerModule,
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        connection: {
+          host: configService.get('redis.host'),
+          port: configService.get<number>('redis.port'),
+        },
+      }),
+      inject: [ConfigService],
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
