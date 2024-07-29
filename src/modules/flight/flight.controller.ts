@@ -12,7 +12,7 @@ import { FlightService } from './flight.service';
 import UpdateFlightDto from './dto/updateFlight.dto';
 import { AuthGuard } from '../auth/auth.gaurd';
 
-// @UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 @Controller('v1/flight')
 export class FlightController {
   public constructor(private readonly flightService: FlightService) {}
