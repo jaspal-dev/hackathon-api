@@ -15,7 +15,6 @@ This application allows agents to register, manage flight updates, and add passe
 - Nodemailer
 - Redis
 - JSON Web Tokens (JWT)
-- OTP verification
 
 ## Prerequisites
 - Node.js (v14.x or later)
